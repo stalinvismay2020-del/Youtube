@@ -19,14 +19,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-        with:
-          cmdline-tools-version: 12266719
-          accept-android-sdk-licenses: true
-          log-accepted-android-sdk-licenses: true
-          packages: |
-            platform-tools
+      - name: Use preinstalled Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          test -d "$ANDROID_HOME/platforms/android-35" || (echo "Android SDK platform 35 is missing" && exit 1)
+          test -d "$ANDROID_HOME/build-tools/35.0.0" || (echo "Android build-tools 35.0.0 are missing" && exit 1)
             platforms;android-35
             build-tools;35.0.0
       - name: Set up Gradle
